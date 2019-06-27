@@ -19,7 +19,7 @@ Using Long Clipping Sequence: 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTA'
 
 SOAPdenovo-63mer all -s ../soap_file.config -K 29 -R -o UT_assem_K29 1>ass.log 2>ass.err -p 4
 
-SOAPdenovo-127mer all -s ../soap_file.config -K 87 -R -o UT106_assem_K87 1>ass.log 2>ass.err -p 4
+SOAPdenovo-127mer all -s ../soap_file.config -K 87 -R -o UT_assem_K87 1>ass.log 2>ass.err -p 4
 
 #Gap closer to improve quality assembly
 
