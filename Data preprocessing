@@ -43,3 +43,35 @@ spades.py -k 21,33,55,77 -1 UT_R1_paired.fq -2 ../../UT_R2_paired_.fq --careful 
 #Two or more libraries
 spades.py -k 21,33,55,77,99,127 -1 UT_R1_paired.fq -1 Samples_two_libraries/UT_R1_paired.fq \
 -2 UT_R2_paired.fq -2 Samples_two_libraries/UT_R2_paired.fq --careful --only-assembler -o Sample_PE150_assembler
+
+#Quality assessment with Quast
+
+Python quast.py UT_assembly.fasta -m 500 -t 12
+
+#Selection criteria for the best assembly
+#Contigs number
+#N50
+#Genome Fraction (%)
+#Missassembling contig length 
+#Genes number
+
+#fix headers from SPAdes assemblies useful for Prokka input
+awk '/^>/{print ">NODE" ++i; next}{print}' < file.fasta
+
+# New non-redundant database from 87 complete genomes of Mycobacterium genus annot gbk.files to improve homology based annotation.
+
+~/prokka-genbank_to_fasta_db *gb > Mycobacterium.faa 
+
+~/soft/github/cdhit/cd-hit -i Mycobacterium.faa -o Mycobacterium -T 0 -M 0 -g 1 -s 0.8 -c 0.9
+
+~/soft/ncbi-blast-2.2.30+/bin/makeblastdb -dbtype prot -in Mycobacterium
+
+# Annotation using Prokka
+#!/bin/bash
+
+for i in `ls`; do
+ 
+prokka --outdir ${i}.prokka  --prefix  ${i}.prokka --genus Mycobacterium --species tuberculosis ${i} --usegenus Mycobacterium \
+--mincontiglen 200 --cpus 32
+
+done
