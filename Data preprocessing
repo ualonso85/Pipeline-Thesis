@@ -1,0 +1,6 @@
+#Data preprocessing 
+
+Raw data were 
+TRIMMOMATIC 
+
+trimmomatic PE -phred33 UT08_CGCTCATT-TATAGCCT_L001_R1_001.fastq.gz UT08_CGCTCATT-TATAGCCT_L001_R2_001.fastq.gz UT08_R1_paired_SW7.fq.gz UT08_R1_unpaired_SW7.fq.gz UT08_R2_paired_SW7.fq.gz UT08_R2_unpaired_SW7.fq.gz ILLUMINACLIP:/usr/local/bin/Trimmomatic/adapters/TruSeq3-PE.fa:2:30:10 HEADCROP:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:7:15 MINLEN:44 CROP:133
