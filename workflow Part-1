@@ -1,0 +1,78 @@
+
+#Illumina HiSeq2500, raw data of 48 samples in fastq format.
+
+#Data preprocessing FastQC: quality control check on raw sequene data and Trimmomatic: Improve illumina raw data quality through of trimming
+
+fastqc UT_samples.fastq
+
+trimmomatic PE -phred33 UT_samples_R1.fastq. UT_samples_R2_fastq UT_R1_paired.fq UT08_R1_unpaired.fq \
+UT08_R2_paired.fq UT08_R2_unpaired.fq ILLUMINACLIP:/usr/local/bin/Trimmomatic/adapters/TruSeq3-PE.fa:2:30:10 \ 
+HEADCROP:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:7:15 MINLEN:44 CROP:133
+
+Using PrefixPair: 'TACACTCTTTCCCTACACGACGCTCTTCCGATCT' and 'GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT'
+Using Long Clipping Sequence: 'GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCTCATTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAA'
+Using Long Clipping Sequence: 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
+Using Long Clipping Sequence: 'TACACTCTTTCCCTACACGACGCTCTTCCGATCT'
+Using Long Clipping Sequence: 'GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT'
+Using Long Clipping Sequence: 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTA'
+
+#De novo assembly reads using SOAPdenovo2 with different k-mers sizes (21 to 87)
+
+SOAPdenovo-63mer all -s ../soap_file.config -K 29 -R -o UT_assem_K29 1>ass.log 2>ass.err -p 4
+
+SOAPdenovo-127mer all -s ../soap_file.config -K 87 -R -o UT106_assem_K87 1>ass.log 2>ass.err -p 4
+
+#Gap closer to improve quality assembly
+
+Gapcloser -a UT_assem.scafSeq -b soap_file.config -o UT_assem_gcloser.fasta -l 134
+
+#example
+
+#Gapcloser example, sample UT259
+actual gap sum: 69811
+extend gap sum: 33896
+actual gap count: 265
+finish gap count: 180
+spent total time: 2s
+>>>>>>>>>>assembling finished<<<<<<<<<<
+
+ 
+#De novo reads paired end library using SOAPdenovo2 with multi-kmer approach
+#One library
+spades.py -k 21,33,55,77 -1 UT_R1_paired.fq -2 ../../UT_R2_paired_.fq --careful --only-assembler -o Sample_UT_PE150_assembler
+
+#Two or more libraries
+spades.py -k 21,33,55,77,99,127 -1 UT_R1_paired.fq -1 Samples_two_libraries/UT_R1_paired.fq \
+-2 UT_R2_paired.fq -2 Samples_two_libraries/UT_R2_paired.fq --careful --only-assembler -o Sample_PE150_assembler
+
+#Quality assessment with Quast
+
+Python quast.py UT_assembly.fasta -m 500 -t 12
+
+#Selection criteria for the best assembly
+#Contigs number
+#N50
+#Genome Fraction (%)
+#Missassembling contig length 
+#Genes number
+
+#fix headers from SPAdes assemblies useful for Prokka input
+awk '/^>/{print ">NODE" ++i; next}{print}' < file.fasta
+
+# New non-redundant database from 87 complete genomes of Mycobacterium genus annot gbk.files to improve homology based annotation.
+
+~/prokka-genbank_to_fasta_db *gb > Mycobacterium.faa 
+
+~/soft/github/cdhit/cd-hit -i Mycobacterium.faa -o Mycobacterium -T 0 -M 0 -g 1 -s 0.8 -c 0.9
+
+~/soft/ncbi-blast-2.2.30+/bin/makeblastdb -dbtype prot -in Mycobacterium
+
+# Annotation using Prokka
+#!/bin/bash
+
+for i in `ls`; do
+ 
+prokka --outdir ${i}.prokka  --prefix  ${i}.prokka --genus Mycobacterium --species tuberculosis ${i} --usegenus Mycobacterium \
+--mincontiglen 200 --cpus 32
+
+done
