@@ -37,7 +37,7 @@ spent total time: 2s
 >>>>>>>>>>assembling finished<<<<<<<<<<
 
  
-#De novo reads paired end library using SOAPdenovo2 with multi-kmer approach
+#De novo reads paired end library using SPAdes with multi-kmer approach
 #One library
 spades.py -k 21,33,55,77 -1 UT_R1_paired.fq -2 ../../UT_R2_paired_.fq --careful --only-assembler -o Sample_UT_PE150_assembler
 
