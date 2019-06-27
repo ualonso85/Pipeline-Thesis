@@ -1,7 +1,7 @@
 
 #Illumina HiSeq2500, raw data of 47 samples in fastq format.
 
-#Data preprocessing FastQC: quality control check on raw sequene data and Trimmomatic: Improve illumina raw data quality through of trimming
+#Data preprocessing FastQC: quality control check on raw sequence data and Trimmomatic: Improve illumina raw data quality through of trimming
 
 fastqc UT_samples.fastq
 
