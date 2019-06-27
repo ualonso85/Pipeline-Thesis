@@ -8,6 +8,14 @@ ILLUMINACLIP:/usr/local/bin/Trimmomatic/adapters/TruSeq3-PE.fa:2:30:10 HEADCROP:
 MINLEN:44 CROP:133
 
 
-#Data preprocessing FastQC: quality control check on raw sequene data and Trimmomatic: Improve illumina raw $
+#Data preprocessing FastQC: quality control check on raw sequene data and Trimmomatic: Improve illumina raw 
 
 fastqc UT_samples.fastq 
+
+#Illumina HiSeq2500, raw data of 48 samples in fastq format.
+
+#Data preprocessing FastQC: quality control check on raw sequene data and Trimmomatic: Improve illumina raw data quality through of trimming
+
+fastqc UT_samples.fastq
+
+Trimmo
