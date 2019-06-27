@@ -27,7 +27,7 @@ Gapcloser -a UT_assem.scafSeq -b soap_file.config -o UT_assem_gcloser.fasta -l 1
 
 #Gapcloser example, sample UT259
 
-#Gapcloser example, sample UT259
+#Gapcloser output example, sample UT259
 actual gap sum: 69811
 extend gap sum: 33896
 actual gap count: 265
