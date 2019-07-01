@@ -1,2 +1,2 @@
 # Thesis pipeline
-Bioinformatic workflows for comparative genomics analysis of Mycobacterium tuberculosis isolates from Medellín - Colombia
+Bioinformatic workflow for comparative genomics analysis of Mycobacterium tuberculosis isolates from Medellín - Colombia
