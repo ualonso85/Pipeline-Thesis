@@ -176,7 +176,11 @@ iqtree-omp-1.5.5-Linux/bin/iqtree-omp -s pangenome_matrix_t0.fasta -st BIN -m TE
 
 python ~uriel/Scoary/scoary.py -g pangenome_matrix_t0.tr.csv -t traits_47G_fix.csv 
 
-#identification of SNPs related to prevalence from the SNPs_output format from Mauve.
+# Multiple genome alignment with Mauve
+
+progressiveMauve --output=threeway.xmfa --output-guide-tree=threeway.tree --backbone-output=threeway.backbone genome_1.gbk genome_2.gbk .......genome_47.gbk
+
+#identification of SNPs related to prevalence from the SNPs_output (47_Genomes_snps_table) format from Mauve.
 #Gaps and the lower frequencies in the appearance of nucleotides were removed from the 48 positions (1xgenome).
 
 cut -f 1 47_Genomas_snps_table | awk '{chain=""; delete hp; delete lp; if (NR==1) next; split($0,v,""); \
@@ -212,7 +216,7 @@ TTTTTTTTTTTTTTTTTTTTTTTTTTTCCCCTTTCCCTCCTCCCCCCT        2       2       2       
 GGGGGGGGGGGGGGGGGGGGGGGGGGGAAAAGGGAAAGAAGAAAAAAG        2       2       2       1       0.285714        0.714286
 GGGGGGGGGGGGGGGGGGGGGGGGGGGAAAAGGGAAAGAAGAAAAAAG        2       2       2       1       0.285714        0.714286
 
-#In-depth analysis the SNPs_file (48_Genomas_snps_table) produced by mauve alignment
+#In-depth analysis the SNPs_file (47_Genomas_snps_table) produced by mauve alignment
 ./freqs.sh # see script in https://github.com/ualonso85
 ./freqs.sh | awk '{if ($3==1) next; if ($3>2) next; print $0}'
 ./freqs.sh | awk '{if ($3==1) next; if ($3>2) next; print $0}' | tr "." "," | sort -k8,8nr | less
