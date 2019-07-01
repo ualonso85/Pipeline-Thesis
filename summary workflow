@@ -171,7 +171,7 @@ get_homologues/compare_clusters.pl -o sample_intersection_pangenome_Mtx_47G_cane
 #maximun likelihood trees using IQTREE and Figtree
 
 iqtree-omp-1.5.5-Linux/bin/iqtree-omp -s pangenome_matrix_t0.fasta -st BIN -m TEST -bb 1000 -alrt 1000 -nt AUTO
-
+--------------------
 # Pan-genome association study using Scoary
 
 python ~uriel/Scoary/scoary.py -g pangenome_matrix_t0.tr.csv -t traits_47G_fix.csv 
