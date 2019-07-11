@@ -221,3 +221,14 @@ GGGGGGGGGGGGGGGGGGGGGGGGGGGAAAAGGGAAAGAAGAAAAAAG        2       2       2       
 ./freqs.sh | awk '{if ($3==1) next; if ($3>2) next; print $0}'
 ./freqs.sh | awk '{if ($3==1) next; if ($3>2) next; print $0}' | tr "." "," | sort -k8,8nr | less
 
+#pangenome functional annotation
+/BPGA-Version-1.3 \ 
+/home/uriel/pangenome/BPGA_pangenome/47_genomes.gbk/* \
+pangenome_matrix_t0.tab 
+
+/BPGA-Version-1.3
+/home/uriel/pangenome/BPGA_pangenome/47_genomes.gbk/* 
+USEARCH Clustring Algorithm (Ultra-fast) 0.75
+functional analysis
+
+
