@@ -1,0 +1,54 @@
+flower_plot2 <- function(sample, value, start, a, b,  
+                         ellipse_col = rgb(135, 206, 235, 150, max = 255), 
+                         circle_col = rgb(0, 162, 214, max = 255),
+                         circle_text_cex = 1, labels=labels) {
+  par( bty = "n", ann = F, xaxt = "n", yaxt = "n", mar = c(1,1,1,1))
+  plot(c(0,10),c(0,10),type="n")
+  n   <- length(sample)
+  deg <- 360 / n
+  res <- lapply(1:n, function(t){
+    ellipse_col <- ellipse_col[t]
+    plotrix::draw.ellipse(x = 5 + cos((start + deg * (t - 1)) * pi / 180), 
+                          y = 5 + sin((start + deg * (t - 1)) * pi / 180), 
+                          col = ellipse_col,
+                          border = ellipse_col,
+                          a = a, b = b, angle = deg * (t - 1))
+    text(x = 5 + 2.5 * cos((start + deg * (t - 1)) * pi / 180),
+         y = 5 + 2.5 * sin((start + deg * (t - 1)) * pi / 180),
+         value[t]
+    )
+    
+    if (deg * (t - 1) < 180 && deg * (t - 1) > 0 ) {
+      text(x = 5 + 3.3 * cos((start + deg * (t - 1)) * pi / 180),
+           y = 5 + 3.3 * sin((start + deg * (t - 1)) * pi / 180),
+           sample[t],
+           srt = deg * (t - 1) - start,
+           adj = 1,
+           cex = circle_text_cex
+      )
+      
+    } else {
+      text(x = 5 + 3.3 * cos((start + deg * (t - 1)) * pi / 180),
+           y = 5 + 3.3 * sin((start + deg * (t - 1)) * pi / 180),
+           sample[t],
+           srt = deg * (t - 1) + start,
+           adj = 0,
+           cex = circle_text_cex
+      )
+    }           
+  })
+  plotrix::draw.circle(x = 5, y = 5, r = 1.8, col = circle_col, border = circle_col )
+  plotrix::draw.circle(x = 5, y = 5, r = 1.0, col = "green", border = circle_col)
+  
+  # tune location by x and y.
+  text(x = 4.7, y = 5, labels=labels)
+}
+
+
+flower_plot2 (c("UT04", "UT08", "UT105", "UT123", "UT125", "UT142", "UT173", "UT204", "UT222", "UT240", "UT259", "UT260", "UT277", "UT278", "UT288", "UT296", "UT30", "UT300",        
+                "UT303", "UT308", "UT311", "UT316", "UT323", "UT325", "UT331", "UT354", "UT360", "UT361", "UT374", "UT380", "UT385", "UT39", "UT401", "UT412", "UT413", "UT414", 
+                "UT431", "UT463", "UT469", "UT487", "UT509", "UT53", "UT62", "UT63", "UT70", "UT86", "UT91"),
+              c(19, 34, 10, 19, 13, 8, 13, 9, 23, 15, 9, 12, 10, 11, 9, 6, 6, 10, 2, 8, 18, 7, 18, 16, 11, 7, 3, 8, 12, 8, 13, 8, 15, 9, 7, 14, 11, 13, 11, 18, 13, 8, 7, 12, 
+                11, 15, 19), 90, 0.5, 2, labels="",
+              ellipse_col = topo.colors(47, alpha = 0.3), 
+              circle_col = topo.colors(1, alpha = 0.7) )
