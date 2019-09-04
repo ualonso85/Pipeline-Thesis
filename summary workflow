@@ -94,6 +94,9 @@ pilon --genome Ordering_assemblies/UT_scaff_assembly.fasta --frags HP_sam_bam/UT
 #-----------
 #extract SNPs and coordenates from MTB H37Rv using Mummer
 
+nucmer -maxmatch -c 100 H37Rv_genome.fasta UT08_pilon.fasta -p UT08_pilon
+#output: UT08_pilon.delta
+
 #!/bin/bash 
 
         for i in `ls`; do
