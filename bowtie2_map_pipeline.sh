@@ -11,7 +11,7 @@ echo "START DATE:" $START
 echo "MAPPING BWA REFERENCE GENOME H37Rv"
 echo "-------------------------------------------------------------------------"
 
-for i in `ls *.fastq.gz | cut -d "_" -f 1` ;
+for i in `ls *.fastq.gz | cut -d "_" -f 1` ; #this line is important to run PE data (R1 and R2)
 
     do ~software/bowtie2-2.4.1-linux-x86_64/bowtie2 -p 20 -x ~jenny/Eflux_Pumps_Raw_data_Genewiz/mapping/MTB_H37Rv_Gref$
 
